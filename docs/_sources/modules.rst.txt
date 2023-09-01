@@ -2,6 +2,6 @@ complexdf_processor
 ===================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    complexdf_processor

@@ -7,6 +7,7 @@
   <title>complexdf_processor.column_transformer._base module &mdash; complexdf_processor 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/my_theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -88,56 +89,122 @@
 <span id="complexdf-processor-column-transformer-base-module"></span><h1>complexdf_processor.column_transformer._base module<a class="headerlink" href="#module-complexdf_processor.column_transformer._base" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnDropTrivial">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">complexdf_processor.column_transformer._base.</span></span><span class="sig-name descname"><span class="pre">ColumnDropTrivial</span></span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnDropTrivial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnDropTrivial" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ColumnDropTrivial</span></span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnDropTrivial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnDropTrivial" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></p>
+<p>Class for dropping columns with one unique value.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>sp<span class="classifier">instance of class SeriesProcessor</span></dt><dd><p>From complexdf_processor.column_transformer._series_processor</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">complexdf_processor.column_transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTrivial</span><span class="p">,</span><span class="n">SeriesProcessor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span> <span class="o">=</span> <span class="n">SeriesProcessor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">series</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">series</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mf">1.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.5</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mf">2.5</span><span class="p">),(</span><span class="o">-</span><span class="mf">3.2</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">series</span><span class="p">([(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">1.1</span><span class="p">),(</span><span class="mf">2.1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mf">1.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.5</span><span class="p">),</span><span class="kc">None</span><span class="p">,(</span><span class="o">-</span><span class="mf">3.2</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;s1&#39;</span><span class="p">:</span><span class="n">s1</span><span class="p">,</span><span class="s1">&#39;s2&#39;</span><span class="p">:</span><span class="n">s2</span><span class="p">,</span><span class="s1">&#39;s3&#39;</span><span class="p">:</span><span class="n">s3</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmr</span> <span class="o">=</span> <span class="n">ColumnDropTrivial</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmr</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="go">         s2        s3</span>
+<span class="go">0      1+1i  1.2+1.1i</span>
+<span class="go">1     -1+1i    2.1+1i</span>
+<span class="go">2  1.5-1.5i  1.5-1.5i</span>
+<span class="go">3    0+2.5i      None</span>
+<span class="go">4   -3.2+0i   -3.2+0i</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnDropTrivial.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnDropTrivial.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnDropTrivial.fit" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnDropTrivial.inverse_transform">
-<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnDropTrivial.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnDropTrivial.inverse_transform" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Fit the transformer on <cite>X</cite>.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>X<span class="classifier">dataframe of shape (n_samples, n_features)</span></dt><dd><p>Input data, where <cite>n_samples</cite> is the number of samples and
+<cite>n_features</cite> is the number of features.</p>
+</dd>
+<dt>y<span class="classifier">Ignored</span></dt><dd><p>Not used, present here for API consistency by convention.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>self<span class="classifier">object</span></dt><dd><p>Fitted estimator.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnDropTrivial.transform">
 <span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnDropTrivial.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnDropTrivial.transform" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Drop one-unique-value columns in <cite>X</cite>.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>X<span class="classifier">dataframe of shape (n_samples, n_features)</span></dt><dd><p>The input data to complete.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>X_t<span class="classifier">dataframe of shape (n_samples, n_non_trivial_features)</span></dt><dd><p><cite>X</cite> with non_trivial features.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnDropTrivial.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnDropTrivial.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnDropTrivial.inverse_transform" title="Permalink to this definition"></a></dt>
+<dd><p>Append one-unique-value columns in <cite>X</cite>.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>X<span class="classifier">dataframe of shape (n_samples, n_features)</span></dt><dd><p>The input data to complete.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>X_t<span class="classifier">dataframe of shape (n_samples, n_non_trivial_features)</span></dt><dd><p><cite>X</cite> with non_trivial features.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnMapRotate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">complexdf_processor.column_transformer._base.</span></span><span class="sig-name descname"><span class="pre">ColumnMapRotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnMapRotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnMapRotate" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ColumnMapRotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnMapRotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnMapRotate" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnMapRotate.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnMapRotate.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnMapRotate.fit" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnMapRotate.inverse_transform">
-<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnMapRotate.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnMapRotate.inverse_transform" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnMapRotate.transform">
-<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnMapRotate.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnMapRotate.transform" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ComplexDfConjugate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">complexdf_processor.column_transformer._base.</span></span><span class="sig-name descname"><span class="pre">ComplexDfConjugate</span></span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ComplexDfConjugate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ComplexDfConjugate" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></p>
-<p>Class calculating conjugate of dataframes</p>
-<section id="returns">
-<h2>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h2>
+<section id="id5">
+<h2>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>phi<span class="classifier">float, default =0</span></dt><dd><p>rotation angle in rad.</p>
+</dd>
+</dl>
 </section>
-<section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<section id="id6">
+<h2>Attributes<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>columns<span class="classifier">list of strings</span></dt><dd><p>List of column names of columns mapped in <cite>transform</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h2>Examples<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -158,10 +225,56 @@
 </pre></div>
 </div>
 <dl class="py method">
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnMapRotate.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnMapRotate.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnMapRotate.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnMapRotate.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnMapRotate.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnMapRotate.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ColumnMapRotate.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ColumnMapRotate.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ColumnMapRotate.inverse_transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ComplexDfConjugate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ComplexDfConjugate</span></span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ComplexDfConjugate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ComplexDfConjugate" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerMixin</span></code></p>
+<p>Class calculating conjugate of dataframes</p>
+<section id="id8">
+<h2>Returns<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
+</section>
+<section id="id9">
+<h2>Examples<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">complexdf_processor.column_transformer</span> <span class="kn">import</span> <span class="n">ColumnMapRotate</span><span class="p">,</span><span class="n">SeriesProcessor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span> <span class="o">=</span> <span class="n">SeriesProcessor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">series</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">series</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mf">1.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.5</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mf">2.5</span><span class="p">),(</span><span class="o">-</span><span class="mf">3.2</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">series</span><span class="p">([(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">1.1</span><span class="p">),(</span><span class="mf">2.1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mf">1.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.5</span><span class="p">),</span><span class="kc">None</span><span class="p">,(</span><span class="o">-</span><span class="mf">3.2</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;s1&#39;</span><span class="p">:</span><span class="n">s1</span><span class="p">,</span><span class="s1">&#39;s2&#39;</span><span class="p">:</span><span class="n">s2</span><span class="p">,</span><span class="s1">&#39;s3&#39;</span><span class="p">:</span><span class="n">s3</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmr</span> <span class="o">=</span> <span class="n">ColumnMapRotate</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmr</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="go">          s1         s2         s3</span>
+<span class="go">0  -1.0+1.0i  -1.0+1.0i  -1.1+1.2i</span>
+<span class="go">1  -1.0+1.0i  -1.0-1.0i  -1.0+2.1i</span>
+<span class="go">2  -1.0+1.0i   1.5+1.5i   1.5+1.5i</span>
+<span class="go">3  -1.0+1.0i  -2.5+0.0i        NaN</span>
+<span class="go">4  -1.0+1.0i  -0.0-3.2i  -0.0-3.2i</span>
+</pre></div>
+</div>
+<dl class="py method">
 <dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ComplexDfConjugate.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ComplexDfConjugate.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ComplexDfConjugate.fit" title="Permalink to this definition"></a></dt>
-<dd><section id="parameters">
-<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<dd><section id="id10">
+<h3>Parameters<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>X<span class="classifier">dataframe of shape (n_samples, n_features)</span></dt><dd><p>Input data.</p>
 </dd>
@@ -169,8 +282,8 @@
 </dd>
 </dl>
 </section>
-<section id="id1">
-<h3>Returns<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<section id="id11">
+<h3>Returns<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>self<span class="classifier">object</span></dt><dd><p>Fitted estimator.</p>
 </dd>
@@ -179,13 +292,13 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ComplexDfConjugate.inverse_transform">
-<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ComplexDfConjugate.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ComplexDfConjugate.inverse_transform" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ComplexDfConjugate.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ComplexDfConjugate.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ComplexDfConjugate.transform" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ComplexDfConjugate.transform">
-<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ComplexDfConjugate.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ComplexDfConjugate.transform" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._base.ComplexDfConjugate.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_base.html#ComplexDfConjugate.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._base.ComplexDfConjugate.inverse_transform" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>

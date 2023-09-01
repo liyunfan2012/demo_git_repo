@@ -6,6 +6,7 @@
   <title>complexdf_processor.column_transformer._base &mdash; complexdf_processor 1.0.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/my_theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -72,10 +73,52 @@
 <span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="kn">from</span> <span class="nn">._series_processor</span> <span class="kn">import</span> <span class="o">*</span>
 <div class="viewcode-block" id="ColumnDropTrivial"><a class="viewcode-back" href="../../../complexdf_processor.column_transformer._base.html#complexdf_processor.column_transformer._base.ColumnDropTrivial">[docs]</a><span class="k">class</span> <span class="nc">ColumnDropTrivial</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for dropping columns with one unique value.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sp : instance of class SeriesProcessor</span>
+<span class="sd">        From complexdf_processor.column_transformer._series_processor</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from complexdf_processor.column_transformer import ColumnDropTrivial,SeriesProcessor</span>
+<span class="sd">    &gt;&gt;&gt; sp = SeriesProcessor()</span>
+<span class="sd">    &gt;&gt;&gt; s1 = sp.series([(1,1),(1,1),(1,1),(1,1),(1,1)])</span>
+<span class="sd">    &gt;&gt;&gt; s2 = sp.series([(1,1),(-1,1),(1.5,-1.5),(0,2.5),(-3.2,0)])</span>
+<span class="sd">    &gt;&gt;&gt; s3 = sp.series([(1.2,1.1),(2.1,1),(1.5,-1.5),None,(-3.2,0)])</span>
+<span class="sd">    &gt;&gt;&gt; X = pd.DataFrame({&#39;s1&#39;:s1,&#39;s2&#39;:s2,&#39;s3&#39;:s3})</span>
+<span class="sd">    &gt;&gt;&gt; cmr = ColumnDropTrivial()</span>
+<span class="sd">    &gt;&gt;&gt; cmr.fit_transform(X)</span>
+<span class="sd">             s2        s3</span>
+<span class="sd">    0      1+1i  1.2+1.1i</span>
+<span class="sd">    1     -1+1i    2.1+1i</span>
+<span class="sd">    2  1.5-1.5i  1.5-1.5i</span>
+<span class="sd">    3    0+2.5i      None</span>
+<span class="sd">    4   -3.2+0i   -3.2+0i</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="o">=</span> <span class="n">SeriesProcessor</span><span class="p">()</span>
 
 <div class="viewcode-block" id="ColumnDropTrivial.fit"><a class="viewcode-back" href="../../../complexdf_processor.column_transformer._base.html#complexdf_processor.column_transformer._base.ColumnDropTrivial.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the transformer on `X`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : dataframe of shape (n_samples, n_features)</span>
+<span class="sd">            Input data, where `n_samples` is the number of samples and</span>
+<span class="sd">            `n_features` is the number of features.</span>
+
+<span class="sd">        y : Ignored</span>
+<span class="sd">            Not used, present here for API consistency by convention.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Fitted estimator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">uniques</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">cnt</span> <span class="o">=</span> <span class="n">uniques</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
@@ -84,11 +127,35 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="ColumnDropTrivial.transform"><a class="viewcode-back" href="../../../complexdf_processor.column_transformer._base.html#complexdf_processor.column_transformer._base.ColumnDropTrivial.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Drop one-unique-value columns in `X`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : dataframe of shape (n_samples, n_features)</span>
+<span class="sd">            The input data to complete.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X_t : dataframe of shape (n_samples, n_non_trivial_features)</span>
+<span class="sd">            `X` with non_trivial features.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,[</span><span class="s1">&#39;columns&#39;</span><span class="p">,</span><span class="s1">&#39;cols_trivial&#39;</span><span class="p">])</span>
         <span class="n">X_t</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cols_trivial</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">X_t</span></div>
 
 <div class="viewcode-block" id="ColumnDropTrivial.inverse_transform"><a class="viewcode-back" href="../../../complexdf_processor.column_transformer._base.html#complexdf_processor.column_transformer._base.ColumnDropTrivial.inverse_transform">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append one-unique-value columns in `X`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : dataframe of shape (n_samples, n_features)</span>
+<span class="sd">            The input data to complete.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X_t : dataframe of shape (n_samples, n_non_trivial_features)</span>
+<span class="sd">            `X` with non_trivial features.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">X_t</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols_trivial</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">X_t</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">ComplexFloat</span><span class="p">(</span><span class="o">*</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -96,8 +163,39 @@
 
 
 <div class="viewcode-block" id="ColumnMapRotate"><a class="viewcode-back" href="../../../complexdf_processor.column_transformer._base.html#complexdf_processor.column_transformer._base.ColumnMapRotate">[docs]</a><span class="k">class</span> <span class="nc">ColumnMapRotate</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    phi : float, default =0</span>
+<span class="sd">        rotation angle in rad.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">phi</span><span class="p">):</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    columns : list of strings</span>
+<span class="sd">        List of column names of columns mapped in `transform`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import math</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from complexdf_processor.column_transformer import ColumnMapRotate,SeriesProcessor</span>
+<span class="sd">    &gt;&gt;&gt; sp = SeriesProcessor()</span>
+<span class="sd">    &gt;&gt;&gt; s1 = sp.series([(1,1),(1,1),(1,1),(1,1),(1,1)])</span>
+<span class="sd">    &gt;&gt;&gt; s2 = sp.series([(1,1),(-1,1),(1.5,-1.5),(0,2.5),(-3.2,0)])</span>
+<span class="sd">    &gt;&gt;&gt; s3 = sp.series([(1.2,1.1),(2.1,1),(1.5,-1.5),None,(-3.2,0)])</span>
+<span class="sd">    &gt;&gt;&gt; X = pd.DataFrame({&#39;s1&#39;:s1,&#39;s2&#39;:s2,&#39;s3&#39;:s3})</span>
+<span class="sd">    &gt;&gt;&gt; cmr = ColumnMapRotate(math.pi/2)</span>
+<span class="sd">    &gt;&gt;&gt; cmr.fit_transform(X)</span>
+<span class="sd">              s1         s2         s3</span>
+<span class="sd">    0  -1.0+1.0i  -1.0+1.0i  -1.1+1.2i</span>
+<span class="sd">    1  -1.0+1.0i  -1.0-1.0i  -1.0+2.1i</span>
+<span class="sd">    2  -1.0+1.0i   1.5+1.5i   1.5+1.5i</span>
+<span class="sd">    3  -1.0+1.0i  -2.5+0.0i        NaN</span>
+<span class="sd">    4  -1.0+1.0i  -0.0-3.2i  -0.0-3.2i</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="n">phi</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="o">=</span> <span class="n">SeriesProcessor</span><span class="p">()</span>
 
@@ -132,7 +230,6 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import math</span>
 <span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
-<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; from complexdf_processor.column_transformer import ColumnMapRotate,SeriesProcessor</span>
 <span class="sd">    &gt;&gt;&gt; sp = SeriesProcessor()</span>
 <span class="sd">    &gt;&gt;&gt; s1 = sp.series([(1,1),(1,1),(1,1),(1,1),(1,1)])</span>
@@ -147,7 +244,6 @@
 <span class="sd">    2  -1.0+1.0i   1.5+1.5i   1.5+1.5i</span>
 <span class="sd">    3  -1.0+1.0i  -2.5+0.0i        NaN</span>
 <span class="sd">    4  -1.0+1.0i  -0.0-3.2i  -0.0-3.2i</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="o">=</span> <span class="n">SeriesProcessor</span><span class="p">()</span>

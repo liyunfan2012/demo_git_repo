@@ -7,6 +7,7 @@
   <title>complexdf_processor.column_transformer._series_processor module &mdash; complexdf_processor 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/my_theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -88,12 +89,58 @@
 <span id="complexdf-processor-column-transformer-series-processor-module"></span><h1>complexdf_processor.column_transformer._series_processor module<a class="headerlink" href="#module-complexdf_processor.column_transformer._series_processor" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="complexdf_processor.column_transformer._series_processor.SeriesProcessor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">complexdf_processor.column_transformer._series_processor.</span></span><span class="sig-name descname"><span class="pre">SeriesProcessor</span></span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_series_processor.html#SeriesProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._series_processor.SeriesProcessor" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SeriesProcessor</span></span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_series_processor.html#SeriesProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._series_processor.SeriesProcessor" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for complex series operation.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._series_processor.SeriesProcessor.conj">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">conj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_series_processor.html#SeriesProcessor.conj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._series_processor.SeriesProcessor.conj" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._series_processor.SeriesProcessor.series">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_series_processor.html#SeriesProcessor.series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._series_processor.SeriesProcessor.series" title="Permalink to this definition"></a></dt>
+<dd><p>Generate series of ComplexFloat with list of re and im tuples.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>lst<span class="classifier">list of tuples</span></dt><dd><p>The list of tuples (re,im) for ComplexFloat constructor.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>s ：list of ComplexFloat</dt><dd><p>list of ComplexFloat with re and im parts from <cite>lst</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">complexdf_processor.column_transformer</span> <span class="kn">import</span> <span class="n">SeriesProcessor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span> <span class="o">=</span> <span class="n">SeriesProcessor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lst</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="go">0      1+1i</span>
+<span class="go">1    0+0.5i</span>
+<span class="go">2     -1-2i</span>
+<span class="go">dtype: object</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._series_processor.SeriesProcessor.unique">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unique</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_series_processor.html#SeriesProcessor.unique"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._series_processor.SeriesProcessor.unique" title="Permalink to this definition"></a></dt>
+<dd><p>Generate the list of unique values of a complex series.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<p>s : series of ComplextFloat</p>
+</section>
+<section id="id2">
+<h2>Returns<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>uniques<span class="classifier">list of ComplextFloat</span></dt><dd><p>The list of unique ComplextFloat in s.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="complexdf_processor.column_transformer._series_processor.SeriesProcessor.rotate">
@@ -101,13 +148,8 @@
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._series_processor.SeriesProcessor.series">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_series_processor.html#SeriesProcessor.series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._series_processor.SeriesProcessor.series" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="complexdf_processor.column_transformer._series_processor.SeriesProcessor.unique">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unique</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_series_processor.html#SeriesProcessor.unique"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._series_processor.SeriesProcessor.unique" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="complexdf_processor.column_transformer._series_processor.SeriesProcessor.conj">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">conj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/complexdf_processor/column_transformer/_series_processor.html#SeriesProcessor.conj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#complexdf_processor.column_transformer._series_processor.SeriesProcessor.conj" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
