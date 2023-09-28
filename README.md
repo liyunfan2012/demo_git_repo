@@ -167,7 +167,11 @@ To make Github bypass Jekyll, create an empty file `.nojekyll` in the `doc` fold
 
 5. View documentation html
 - To browse local file, open `index.html` in browser.
-- To browse github webpage, 
+- To browse Github webpage, go to repo page, 
+
+  Settings(top navigation)-> Pages (left navigation) -> Build and deployment -> Branch 
+  
+  select branch=main, select folder=docs.
 
 
 ### Note
